@@ -1,2 +1,7 @@
 ./boot.bin
 boot.bin
+kernel.asm.o
+kernelfull.o
+boot.bin
+kernel.bin
+os.bin
