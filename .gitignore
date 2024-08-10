@@ -1,4 +1,6 @@
 ./boot.bin
+build/*
+bin/*
 boot.bin
 kernel.asm.o
 kernelfull.o

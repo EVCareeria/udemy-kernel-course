@@ -66,7 +66,7 @@ load32:
   mov ecx, 100
   mov edi, 0x0100000
   call ata_lba_read
-  jmp CODE_SEG:0x0100000
+  jmp CODE_SEG:0x100000
  
 
 ata_lba_read:
@@ -118,4 +118,4 @@ ata_lba_read:
 times 510-($ - $$) db 0
 dw 0xAA55
 
-    
+  
