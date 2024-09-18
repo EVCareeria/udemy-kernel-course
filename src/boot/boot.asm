@@ -45,14 +45,15 @@ gdt_code:     ; CS SHOULD POINT TO THIS
     db 0x9a
     db 11001111b
     db 0
+
 ; offset 0x10
-gdt_data:     ; DS, SS, ES, FS, GS
-    dw 0xffff
-    dw 0
-    db 0
-    db 0x92
-    db 11001111b
-    db 0
+gdt_data:         ; DS, SS, ES, FS, GS
+    dw 0xffff     ; Segment limit first 0-15 bits
+    dw 0          ; Base first 0-15 bits
+    db 0          ; Base 16-23 bits
+    db 0x92       ; Access byte
+    db 11001111b  ; High 4 bit flags and the low 4 bit flags
+    db 0          ; Base 24-31 bits
 
 gdt_end:
 
@@ -79,7 +80,6 @@ ata_lba_read:
   mov eax, ecx
   mov dx, 0x1F2
   out dx, al
-
 
   mov eax, ebx
   mov dx, 0x1F3
