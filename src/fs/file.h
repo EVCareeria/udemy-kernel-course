@@ -26,6 +26,7 @@ typedef int (*FS_RESOLVE_FUNCTION)(struct disk* disk);
 
 struct filesystem
 {
+    // Filesystem returns zero from resolve if the provided disk is using its filesystem
     FS_RESOLVE_FUNCTION resolve;
     FS_OPEN_FUNCTION open;
 
