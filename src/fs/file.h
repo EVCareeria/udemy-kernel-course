@@ -6,9 +6,9 @@
 typedef unsigned int FILE_SEEK_MODE;
 enum
 {
-SEEK_SET,
-SEEK_CUR,
-SEEK_END
+    SEEK_SET,
+    SEEK_CUR,
+    SEEK_END
 };
 
 typedef unsigned int FILE_MODE;
@@ -35,16 +35,19 @@ struct filesystem
 
 struct file_descriptor
 {
+    // Descriptor index
     int index;
     struct filesystem* filesystem;
 
+    // Private data for internal file descriptor
     void* private;
 
+    // The disk that the file descriptor should be used on
     struct disk* disk;
 };
 
 void fs_init();
-int fopen(const char* filename, const char* mode_str);
+int fopen(const char* filename, const char* mode);
 void fs_insert_filesystem(struct filesystem* filesystem);
 struct filesystem* fs_resolve(struct disk* disk);
 #endif

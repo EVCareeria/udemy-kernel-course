@@ -64,6 +64,7 @@ static int file_new_descriptor(struct file_descriptor** desc_out)
         {
             struct file_descriptor* desc = kzalloc(sizeof(struct file_descriptor));
 
+            // Descriptors start at 1 not 0
             desc->index = i + 1;
             file_descriptors[i] = desc;
             *desc_out = desc;
@@ -82,7 +83,7 @@ static struct file_descriptor* file_get_descriptor(int fd)
         return 0;
     }
 
-    int index = fd -1;
+    int index = fd - 1;
     return file_descriptors[index];
 }
 

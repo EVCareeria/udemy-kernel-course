@@ -82,7 +82,7 @@ int strncmp(const char* str1, const char* str2, int n)
 
 char* strcpy(char* dest, const char* src)
 {
-    char* tmp = dest;
+    char* res = dest;
     while(*src != 0)
     {
         *dest = *src;
@@ -92,7 +92,7 @@ char* strcpy(char* dest, const char* src)
 
     *dest = 0x00;
 
-    return tmp;
+    return res;
 }
 
 bool isdigit(char c)
