@@ -7,8 +7,10 @@
 
 #define PEACHOS_MAX_PATH 108
 
+void panic(const char* msg);
 void kernel_main();
 void print(const char* str);
+
 
 #define ERROR(value) (void*)(value)
 #define ERROR_I(value) (int)(value)
