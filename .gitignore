@@ -7,3 +7,5 @@ kernelfull.o
 boot.bin
 kernel.bin
 os.bin
+programs/*/*.bin
+programs/*/build/*.o
