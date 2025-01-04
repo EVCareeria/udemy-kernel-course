@@ -14,6 +14,9 @@
 #include "config.h"
 #include "memory/memory.h"
 #include "task/tss.h"
+#include "task/task.h"
+#include "task/process.h"
+#include "status.h"
 
 uint16_t* video_mem = 0;
 uint16_t terminal_row = 0;
@@ -75,6 +78,11 @@ void panic(const char* msg)
     print(msg);
     while(1) {}
 }
+void kernel_page()
+{
+    kernel_registers();
+    paging_switch(kernel_chunk);
+}
 
 struct tss tss;
 struct gdt gdt_real[PEACHOS_TOTAL_GDT_SEGMENTS];
@@ -84,7 +92,7 @@ struct gdt_structured gdt_structured[PEACHOS_TOTAL_GDT_SEGMENTS] = {
     {.base = 0x00, .limit = 0xffffffff, .type = 0x92},   // Kernel Data segment
     {.base = 0x00, .limit = 0xffffffff, .type = 0xf8},  // User code segment
     {.base = 0x00, .limit = 0xffffffff, .type = 0xf2},  // User data segment
-    {.base = (uint32_t)&tss, .limit =sizeof(tss), .type = 0xE9}     // TSS segment
+    {.base = (uint32_t)&tss, .limit = sizeof(tss), .type = 0xE9}     // TSS segment
 };
 
 void kernel_main()
@@ -120,22 +128,21 @@ void kernel_main()
     kernel_chunk = paging_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
 
     // Switch to kernel paging chunk
-    paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
+    paging_switch(kernel_chunk);
 
     // Enable paging
     enable_paging();
 
-    // Enable the system interrupts
-    enable_interrupts();
-    
-    int fd = fopen("0:/hello.txt", "r");
-    if(fd)
-    {
-        struct file_stat s;
-        fstat(fd, &s);
-        fclose(fd);
-
-        print("testing\n");
+    struct process* process = 0;
+    int res = process_load("0:/blank.bin", &process);
+    if (res != PEACHOS_ALL_OK) {
+        panic("Failed to load blank.bin\n");
     }
+
+    task_run_first_ever_task();
+
+    // Enable the system interrupts
+    // enable_interrupts();
+    
     while(1) {}
 }

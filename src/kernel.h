@@ -10,6 +10,8 @@
 void panic(const char* msg);
 void kernel_main();
 void print(const char* str);
+void kernel_page();
+void kernel_registers();
 
 
 #define ERROR(value) (void*)(value)
