@@ -4,4 +4,3 @@ all:
 
 clean:
 	rm -rf ./build/blank.o
-	rm blank.bin
