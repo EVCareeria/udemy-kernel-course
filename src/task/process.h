@@ -17,10 +17,18 @@ struct process
     void* stack;                // The physical pointer to the stack memory
 
     uint32_t size;              // The size of the data pointed to by "ptr"
+
+    struct keyboard_buffer
+    {
+        char buffer[PEACHOS_KEYBOARD_BUFFER_SIZE];
+        int tail;
+        int head;
+    } keyboard;
 };
 
 int process_load_for_slot(const char* filename, struct process** process, int process_slot);
 int process_load(const char* filename, struct process** process);
-
+struct process* process_current();
+struct process* process_get(int process_id);
 
 #endif
