@@ -97,6 +97,11 @@ struct gdt_structured gdt_structured[PEACHOS_TOTAL_GDT_SEGMENTS] = {
     {.base = (uint32_t)&tss, .limit = sizeof(tss), .type = 0xE9}     // TSS segment
 };
 
+// For testing interrupt handler
+void pic_timer_callback(struct interrupt_frame* frame)
+{
+    print("Timer activated\n");
+}
 void kernel_main()
 {
     terminal_initialize();
@@ -137,6 +142,9 @@ void kernel_main()
     isr80h_register_commands();
 
     keyboard_init();
+
+    // Testing purposes
+    idt_register_interrupt_callback(0x20, pic_timer_callback);
 
     struct process* process = 0;
     int res = process_load("0:/blank.bin", &process);

@@ -9,3 +9,4 @@ kernel.bin
 os.bin
 programs/*/*.bin
 programs/*/build/*.o
+.vscode/
